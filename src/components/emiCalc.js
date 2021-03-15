@@ -103,35 +103,35 @@ const CssTextField = withStyles({
 
 const followersMarks = [
   {
-    value: 0,
+    value: 50000,
     scaledValue: 50000,
     label: "50k",
   },
   {
-    value: 25,
-    scaledValue: 100000,
-    label: "100k",
-  },
-  {
-    value: 50,
-    scaledValue: 200000,
-    label: "200k",
-  },
-  {
-    value: 75,
-    scaledValue: 400000,
-    label: "400k",
-  },
-  {
-    value: 100,
-    scaledValue: 800000,
-    label: "800k",
-  },
-  {
-    value: 125,
+    value: 1500000,
     scaledValue: 1500000,
-    label: "1.5m",
+    label: "1.5M",
   },
+  // {
+  //   value: 50,
+  //   scaledValue: 200000,
+  //   label: "200k",
+  // },
+  // {
+  //   value: 75,
+  //   scaledValue: 400000,
+  //   label: "400k",
+  // },
+  // {
+  //   value: 100,
+  //   scaledValue: 800000,
+  //   label: "800k",
+  // },
+  // {
+  //   value: 125,
+  //   scaledValue: 1500000,
+  //   label: "1.5m",
+  // },
 ];
 
 const interestRates = [
@@ -159,17 +159,6 @@ const totalYears = [
     label: "5",
   },
 ];
-const scale = (value) => {
-  const previousMarkIndex = Math.floor(value / 25);
-  const previousMark = followersMarks[previousMarkIndex];
-  const remainder = value % 25;
-  if (remainder === 0) {
-    return previousMark.scaledValue;
-  }
-  const nextMark = followersMarks[previousMarkIndex + 1];
-  const increment = (nextMark.scaledValue - previousMark.scaledValue) / 25;
-  return remainder * increment + previousMark.scaledValue;
-};
 
 function numFormatter(num) {
   if (num > 999 && num < 1000000) {
@@ -182,7 +171,7 @@ function numFormatter(num) {
 }
 function Emi_Calculator() {
   const classes = useStyles();
-  const [range, setRange] = useState(1);
+  const [range, setRange] = useState(50000);
   const [rate, setRate] = useState(10.5);
   const [year, setYear] = useState(1);
 
@@ -198,13 +187,24 @@ function Emi_Calculator() {
     setYear(newYear);
   };
 
-  const handleText = (e) => {
-    // // let inValue = e.target.value;
-    // setRange(e.target.value);
-    // console.log(range);
+  const handleRange = (e) => {
+    let inValue = e.target.value;
+    setRange(inValue);
   };
 
-  const principalAmount = scale(range);
+  const handleRate = (e) => {
+    let inRate = e.target.value;
+    setRate(inRate);
+  };
+
+  const handleYear = (e) => {
+    let inYear = e.target.value;
+    setYear(inYear);
+  };
+
+  console.log(range);
+
+  const principalAmount = range;
   const rateOfInterest = rate / (12 * 100);
   const numberOfYears = year * 12;
 
@@ -231,8 +231,8 @@ function Emi_Calculator() {
                     className={classes.forminput}
                     variant="outlined"
                     size="small"
-                    value={scale(range)}
-                    // onChange={handleText}
+                    value={range}
+                    onChange={handleRange}
                   />
                 }
                 labelPlacement="start"
@@ -243,12 +243,11 @@ function Emi_Calculator() {
             <PrettoSlider
               className={classes.slider}
               value={range}
-              min={0}
-              step={1}
-              max={125}
+              min={50000}
+              step={1000}
+              max={1500000}
               valueLabelFormat={numFormatter}
               marks={followersMarks}
-              scale={scale}
               onChange={handleChange}
               valueLabelDisplay="auto"
               aria-labelledby="non-linear-slider"
@@ -265,6 +264,7 @@ function Emi_Calculator() {
                     variant="outlined"
                     size="small"
                     value={rate}
+                    onChange={handleRate}
                   />
                 }
                 labelPlacement="start"
@@ -280,6 +280,8 @@ function Emi_Calculator() {
               max={24}
               marks={interestRates}
               onChange={rateChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="non-linear-slider"
             />
           </Grid>
           <Grid item xs={6}>
@@ -293,6 +295,7 @@ function Emi_Calculator() {
                     variant="outlined"
                     size="small"
                     value={year}
+                    onChange={handleYear}
                   />
                 }
                 labelPlacement="start"
@@ -308,6 +311,8 @@ function Emi_Calculator() {
               max={5}
               marks={totalYears}
               onChange={yearChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="non-linear-slider"
             />
           </Grid>
           <Grid item className={classes.resultEmi}>
