@@ -112,33 +112,13 @@ const followersMarks = [
     scaledValue: 1500000,
     label: "1.5M",
   },
-  // {
-  //   value: 50,
-  //   scaledValue: 200000,
-  //   label: "200k",
-  // },
-  // {
-  //   value: 75,
-  //   scaledValue: 400000,
-  //   label: "400k",
-  // },
-  // {
-  //   value: 100,
-  //   scaledValue: 800000,
-  //   label: "800k",
-  // },
-  // {
-  //   value: 125,
-  //   scaledValue: 1500000,
-  //   label: "1.5m",
-  // },
 ];
 
 const interestRates = [
   {
     value: 10,
     scaledValue: 10,
-    label: "10.5%",
+    label: "10%",
   },
   {
     value: 24,
@@ -172,7 +152,7 @@ function numFormatter(num) {
 function Emi_Calculator() {
   const classes = useStyles();
   const [range, setRange] = useState(50000);
-  const [rate, setRate] = useState(10.5);
+  const [rate, setRate] = useState(10);
   const [year, setYear] = useState(1);
 
   const handleChange = (e, newValue) => {
@@ -274,7 +254,7 @@ function Emi_Calculator() {
           <Grid item>
             <PrettoSlider
               className={classes.slider}
-              valueLabelDisplay="auto"
+              value={rate}
               min={10}
               step={0.5}
               max={24}
@@ -305,7 +285,7 @@ function Emi_Calculator() {
           <Grid item>
             <PrettoSlider
               className={classes.slider}
-              valueLabelDisplay="auto"
+              value={year}
               min={1}
               step={1}
               max={5}
